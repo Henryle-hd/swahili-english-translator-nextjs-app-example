@@ -68,7 +68,7 @@ export default function Navpage() {
           </li>
           <li className="mb-2 lg:mb-0">
             <a
-              href="https://github.com/Henryle-hd/swahili-english-translator"
+              href="https://github.com/Henryle-hd/swahili-english-translator-nextjs-app-example"
               className="hover:text-easycl-100 text-gray-200 block"
               target="_blank"
               rel="noopener noreferrer"
