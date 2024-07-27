@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { translateEng } from "swahili-english-translator";
+import { translateKsw } from "swahili-english-translator";
 import Image from "next/image";
 import imageGif from "../assets/translationnomads-translation-tog.gif";
 import { Separator } from "@/components/ui/separator";
@@ -16,16 +16,21 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 
-export default function TranslateEnglish() {
+export default function TranslateSwahili() {
   const [inputValue, setInputValue] = useState("");
   const [userInput, setUserInput] = useState("");
-  const [swaResult, setSwaResult] = useState(null);
+  const [engResult, setEngResult] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setUserInput(inputValue);
-    const result = translateEng(inputValue.trim());
-    setSwaResult(result);
+    try {
+      const result = translateKsw(inputValue.trim());
+      setEngResult(result);
+    } catch (error) {
+      console.error("Translation error:", error);
+      setEngResult(null);
+    }
   };
 
   return (
@@ -33,10 +38,10 @@ export default function TranslateEnglish() {
       <Card className="w-full max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle className="text-xl sm:text-2xl font-bold text-center">
-            English to Swahili Translator
+            Swahili to English Translator
           </CardTitle>
           <CardDescription className="text-center text-sm sm:text-base">
-            {/* Enter an English word to get its Swahili translation */}
+            {/* Enter a Swahili word to get its English translation */}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -51,11 +56,11 @@ export default function TranslateEnglish() {
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex flex-col space-y-2">
-              <Label htmlFor="englishWord">English Word</Label>
+              <Label htmlFor="swahiliWord">Swahili Word</Label>
               <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                 <Input
-                  id="englishWord"
-                  placeholder="Type English word..."
+                  id="swahiliWord"
+                  placeholder="Andika neno la kiswahili..."
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   className="flex-grow focus-visible:ring-transparent"
@@ -67,7 +72,7 @@ export default function TranslateEnglish() {
             </div>
           </form>
         </CardContent>
-        {swaResult && (
+        {engResult && (
           <CardFooter className="flex flex-col">
             <Separator className="my-4" />
             <div className="w-full space-y-4">
@@ -80,20 +85,20 @@ export default function TranslateEnglish() {
                   Translation
                 </h3>
                 <p className="text-primary text-sm sm:text-base">
-                  {swaResult.meaning}
+                  {engResult.meaning}
                 </p>
               </div>
               <div>
                 <h3 className="font-semibold text-sm sm:text-base">Type</h3>
-                <p className="text-sm sm:text-base">{swaResult.type}</p>
+                <p className="text-sm sm:text-base">{engResult.type}</p>
               </div>
               <div>
                 <h3 className="font-semibold text-sm sm:text-base">Examples</h3>
                 <p className="text-sm sm:text-base">
-                  English: {swaResult.example.eng}
+                  English: {engResult.example.eng}
                 </p>
                 <p className="text-sm sm:text-base">
-                  Swahili: {swaResult.example.ksw}
+                  Swahili: {engResult.example.ksw}
                 </p>
               </div>
             </div>
